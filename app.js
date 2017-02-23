@@ -6,33 +6,11 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
-var users = require('./routes/users');
-
-var twitterStream = require('twitter-stream-api');
-  var fs = require('fs');
-
-var keys = {
-  consumer_key : "7EHH72iYX8COvNa0KLI8KNm9Y",
-  consumer_secret : "CZzrDCBnnBV3goyG55eLLR2qBOKwXUO7W7yBCKMpwIjfAo1kQV",
-  token : "50436093-G1bf8QjaDDeAodjMiB57W656jEqSrRTSRN1nUCSrV",
-  token_secret : "Cv8tcx076b2Iam3nQdUCpejQQuQ0WmEdomp7EnCZSLnEl"
-}
-
-var Twitter = new twitterStream(keys, false);
-Twitter.stream('statuses/filter', {
-    track: 'javascript'
-});
-
-Twitter.on('connection success', function (uri) {
-    console.log('connection success', uri);
-});
-
-Twitter.pipe(fs.createWriteStream('tweets.json'));
 
 var app = express();
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, 'app/views'));
 app.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
@@ -44,7 +22,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
-app.use('/users', users);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
